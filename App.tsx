@@ -1,11 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import { Teste } from './src/Teste';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Teste />
+      <Text>This is Expo React Native running into Web</Text>
       <StatusBar style="auto" />
     </View>
   );
