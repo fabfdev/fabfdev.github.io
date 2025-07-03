@@ -431,7 +431,8 @@ const styles = StyleSheet.create({
     gap: isWeb ? 0 : 15,
   },
   urlInput: {
-    flex: 1,
+    flex: isWeb ? 1 : undefined,
+    width: isWeb ? undefined : '100%',
     height: 50,
     borderWidth: 2,
     borderColor: '#e5e7eb',
@@ -483,28 +484,30 @@ const styles = StyleSheet.create({
   // Phone Mockup
   phoneMockupContainer: {
     position: 'relative',
+    flexDirection: isWeb ? undefined : 'row',
     alignItems: 'center',
     justifyContent: 'center',
     width: isWeb ? 500 : '100%',
-    height: isWeb ? 700 : 350,
+    height: isWeb ? 700 : 300,
+    gap: isWeb ? undefined : -50,
+    marginTop: isWeb ? 0 : 20,
   },
   phoneImage: {
-    width: isWeb ? 580 : 180,
-    height: isWeb ? 1060 : 320,
+    width: isWeb ? 280 : 180,
+    height: isWeb ? 660 : 560,
     resizeMode: 'contain',
-    position: isWeb ? 'absolute' : 'relative',
-    left: isWeb ? 30 : undefined,
+    position: 'absolute',
+    left: 30,
     zIndex: 1,
   },
   phoneImage2: {
-    width: isWeb ? 580 : 180,
-    height: isWeb ? 1060 : 320,
+    width: isWeb ? 380 : 240,
+    height: isWeb ? 760 : 620,
     resizeMode: 'contain',
-    position: isWeb ? 'absolute' : 'relative',
-    right: isWeb ? 0 : undefined,
+    position: 'absolute',
+    right: isWeb ? 0 : 30,
     zIndex: 2,
   },
-  
   // Sections
   section: {
     paddingHorizontal: 20,
