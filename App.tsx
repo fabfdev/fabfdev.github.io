@@ -467,38 +467,42 @@ const styles = StyleSheet.create({
     flexDirection: isWeb ? 'row' : 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 40,
+    gap: isWeb ? 40 : 30,
     maxWidth: 1200,
     width: '100%',
   },
   
   // Converter Left Side
   converterLeftSide: {
-    flex: 1,
+    flex: isWeb ? 1 : undefined,
     alignItems: 'center',
+    width: isWeb ? undefined : '100%',
     maxWidth: isWeb ? 600 : undefined,
   },
   
   // Phone Mockup
   phoneMockupContainer: {
-    flexDirection: 'row',
+    position: 'relative',
     alignItems: 'center',
     justifyContent: 'center',
-    position: "relative"
+    width: isWeb ? 500 : '100%',
+    height: isWeb ? 700 : 350,
   },
   phoneImage: {
-    minWidth: 180,
-    maxWidth: 280,
-    minHeight: 380,
-    resizeMode: 'cover',
+    width: isWeb ? 580 : 180,
+    height: isWeb ? 1060 : 320,
+    resizeMode: 'contain',
+    position: isWeb ? 'absolute' : 'relative',
+    left: isWeb ? 30 : undefined,
+    zIndex: 1,
   },
   phoneImage2: {
-    minWidth: 180,
-    maxWidth: 300,
-    minHeight: 380,
-    resizeMode: 'cover',
-    position: "absolute",
-    left: 100,
+    width: isWeb ? 580 : 180,
+    height: isWeb ? 1060 : 320,
+    resizeMode: 'contain',
+    position: isWeb ? 'absolute' : 'relative',
+    right: isWeb ? 0 : undefined,
+    zIndex: 2,
   },
   
   // Sections
