@@ -17,6 +17,7 @@ const isWeb = screenWidth > 768;
 export default function App() {
   const [websiteUrl, setWebsiteUrl] = useState('');
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleConvertWebsite = () => {
     
@@ -60,12 +61,38 @@ export default function App() {
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.logo}>🚀 AppConverter</Text>
-        <View style={styles.nav}>
-          <Text style={styles.navItem}>Como Funciona</Text>
-          <Text style={styles.navItem}>Vantagens</Text>
-          <Text style={styles.navItem}>Preços</Text>
-        </View>
+        {isWeb ? (
+          <View style={styles.nav}>
+            <Text style={styles.navItem}>Como Funciona</Text>
+            <Text style={styles.navItem}>Vantagens</Text>
+            <Text style={styles.navItem}>Preços</Text>
+          </View>
+        ) : (
+          <TouchableOpacity 
+            style={styles.hamburgerButton}
+            onPress={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <Text style={styles.hamburgerIcon}>
+              {isMenuOpen ? '✕' : '☰'}
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
+      
+      {/* Mobile Menu Overlay */}
+      {!isWeb && isMenuOpen && (
+        <View style={styles.mobileMenu}>
+          <TouchableOpacity style={styles.mobileMenuItem}>
+            <Text style={styles.mobileMenuText}>Como Funciona</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.mobileMenuItem}>
+            <Text style={styles.mobileMenuText}>Vantagens</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.mobileMenuItem}>
+            <Text style={styles.mobileMenuText}>Preços</Text>
+          </TouchableOpacity>
+        </View>
+      )}
 
       {/* Hero Section */}
       <View style={styles.heroSection}>
@@ -366,11 +393,44 @@ const styles = StyleSheet.create({
   nav: {
     flexDirection: 'row',
     gap: 20,
+    alignItems: 'center',
   },
   navItem: {
     fontSize: 16,
     color: '#666',
     fontWeight: '500',
+  },
+  
+  // Hamburger Menu
+  hamburgerButton: {
+    padding: 8,
+  },
+  hamburgerIcon: {
+    fontSize: 24,
+    color: '#2563eb',
+    fontWeight: 'bold',
+  },
+  mobileMenu: {
+    backgroundColor: '#fff',
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  mobileMenuItem: {
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f5f5f5',
+  },
+  mobileMenuText: {
+    fontSize: 16,
+    color: '#666',
+    fontWeight: '500',
+    textAlign: 'center',
   },
   
   // Hero Section
