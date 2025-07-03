@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
   Dimensions,
+  Image,
 } from 'react-native';
 
 const { width: screenWidth } = Dimensions.get('window');
@@ -109,48 +110,14 @@ export default function App() {
           
           {/* Phone Mockup */}
           <View style={styles.phoneMockupContainer}>
-            <View style={styles.phoneFrame}>
-              <View style={styles.phoneScreen}>
-                <View style={styles.phoneStatusBar}>
-                  <Text style={styles.phoneTime}>9:41</Text>
-                  <View style={styles.phoneSignals}>
-                    <Text style={styles.phoneSignal}>•••</Text>
-                    <Text style={styles.phoneBattery}>🔋</Text>
-                  </View>
-                </View>
-                
-                <View style={styles.appHeader}>
-                  <Text style={styles.appTitle}>Sua Loja</Text>
-                  <Text style={styles.appSubtitle}>🛍️</Text>
-                </View>
-                
-                <View style={styles.appContent}>
-                  <View style={styles.productCard}>
-                    <View style={styles.productImage} />
-                    <Text style={styles.productName}>Produto Demo</Text>
-                    <Text style={styles.productPrice}>R$ 99,90</Text>
-                  </View>
-                  
-                  <View style={styles.productCard}>
-                    <View style={styles.productImage} />
-                    <Text style={styles.productName}>Produto Demo</Text>
-                    <Text style={styles.productPrice}>R$ 149,90</Text>
-                  </View>
-                </View>
-                
-                <View style={styles.appBottomNav}>
-                  <View style={styles.bottomNavItem}>
-                    <Text style={styles.navIcon}>🏠</Text>
-                  </View>
-                  <View style={styles.bottomNavItem}>
-                    <Text style={styles.navIcon}>🛍️</Text>
-                  </View>
-                  <View style={styles.bottomNavItem}>
-                    <Text style={styles.navIcon}>👤</Text>
-                  </View>
-                </View>
-              </View>
-            </View>
+            <Image
+              source={require('./assets/iphone_1.png')}
+              style={styles.phoneImage}
+            />
+            <Image
+              source={require('./assets/iphone_2.png')}
+              style={styles.phoneImage2}
+            />
           </View>
         </View>
       </View>
@@ -514,115 +481,24 @@ const styles = StyleSheet.create({
   
   // Phone Mockup
   phoneMockupContainer: {
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    position: "relative"
   },
-  phoneFrame: {
-    width: 280,
-    height: 560,
-    backgroundColor: '#1f2937',
-    borderRadius: 30,
-    padding: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 20 },
-    shadowOpacity: 0.3,
-    shadowRadius: 40,
-    elevation: 20,
+  phoneImage: {
+    minWidth: 180,
+    maxWidth: 280,
+    minHeight: 380,
+    resizeMode: 'cover',
   },
-  phoneScreen: {
-    flex: 1,
-    backgroundColor: '#fff',
-    borderRadius: 22,
-    overflow: 'hidden',
-  },
-  phoneStatusBar: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    backgroundColor: '#f8faff',
-  },
-  phoneTime: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#1f2937',
-  },
-  phoneSignals: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-  },
-  phoneSignal: {
-    fontSize: 12,
-    color: '#1f2937',
-  },
-  phoneBattery: {
-    fontSize: 14,
-  },
-  appHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-    backgroundColor: '#2563eb',
-  },
-  appTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#fff',
-  },
-  appSubtitle: {
-    fontSize: 20,
-  },
-  appContent: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: '#f8faff',
-  },
-  productCard: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 12,
-    marginBottom: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  productImage: {
-    width: '100%',
-    height: 80,
-    backgroundColor: '#e5e7eb',
-    borderRadius: 8,
-    marginBottom: 8,
-  },
-  productName: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#1f2937',
-    marginBottom: 4,
-  },
-  productPrice: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#2563eb',
-  },
-  appBottomNav: {
-    flexDirection: 'row',
-    backgroundColor: '#fff',
-    paddingVertical: 12,
-    borderTopWidth: 1,
-    borderTopColor: '#e5e7eb',
-  },
-  bottomNavItem: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  navIcon: {
-    fontSize: 20,
+  phoneImage2: {
+    minWidth: 180,
+    maxWidth: 300,
+    minHeight: 380,
+    resizeMode: 'cover',
+    position: "absolute",
+    left: 100,
   },
   
   // Sections
