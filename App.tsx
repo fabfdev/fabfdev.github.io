@@ -11,6 +11,7 @@ import {
   Image,
 } from "react-native";
 import { typeWritterEffect } from "./typeWriterEffect";
+import DemoPage from "./DemoPage";
 
 const { width: screenWidth } = Dimensions.get("window");
 const isWeb = screenWidth > 768;
@@ -19,11 +20,16 @@ export default function App() {
   const [websiteUrl, setWebsiteUrl] = useState("");
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState<"home" | "demo">("home");
 
   const [message, setMessage] = useState("");
 
   const handleConvertWebsite = () => {
-    console.log("asd")
+    setCurrentPage("demo");
+  };
+
+  const handleGoBack = () => {
+    setCurrentPage("home");
   };
 
   const toggleFaq = (index: number) => {
@@ -72,6 +78,10 @@ export default function App() {
   useEffect(() => {
     toggleFaq(0);
   }, []);
+
+  if (currentPage === "demo") {
+    return <DemoPage onGoBack={handleGoBack} />;
+  }
 
   return (
     <ScrollView style={styles.container}>
@@ -333,7 +343,7 @@ export default function App() {
         <Text style={styles.finalCtaTitle}>
           Pronto para Transformar seu Negócio?
         </Text>
-        <TouchableOpacity style={styles.finalCtaButton}>
+        <TouchableOpacity style={styles.finalCtaButton} onPress={() => setCurrentPage("demo")}>
           <Text style={styles.finalCtaButtonText}>
             Começar Agora - Grátis 🚀
           </Text>
@@ -466,6 +476,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   mobileMenu: {
+    position: "absolute",
+    top: 70,
+    left: 0,
+    right: 0,
     backgroundColor: "#fff",
     borderBottomWidth: 1,
     borderBottomColor: "#f0f0f0",
@@ -474,6 +488,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 5,
+    zIndex: 1000,
   },
   mobileMenuItem: {
     paddingHorizontal: 20,
@@ -559,12 +574,10 @@ const styles = StyleSheet.create({
   convertButton: {
     backgroundColor: "#2563eb",
     paddingHorizontal: 24,
-    height: 50,
+    paddingVertical: 15,
     borderRadius: 12,
     marginLeft: isWeb ? 10 : 0,
     minWidth: isWeb ? 200 : undefined,
-    justifyContent: "center",
-    alignItems: "center",
   },
   convertButtonText: {
     color: "#fff",

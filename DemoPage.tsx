@@ -1,0 +1,634 @@
+import React, { useState } from "react";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  Dimensions,
+  Alert,
+} from "react-native";
+
+const { width: screenWidth } = Dimensions.get("window");
+const isWeb = screenWidth > 768;
+
+interface DemoPageProps {
+  onGoBack: () => void;
+}
+
+export default function DemoPage({ onGoBack }: DemoPageProps) {
+  const [formData, setFormData] = useState({
+    nome: "",
+    sobrenome: "",
+    whatsapp: "",
+    email: "",
+    siteLink: "",
+    aceitaTermos: false,
+  });
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleSubmit = () => {
+    // Validações
+    if (!formData.nome.trim()) {
+      Alert.alert("Erro", "Por favor, digite seu nome.");
+      return;
+    }
+    if (!formData.sobrenome.trim()) {
+      Alert.alert("Erro", "Por favor, digite seu sobrenome.");
+      return;
+    }
+    if (!formData.whatsapp.trim()) {
+      Alert.alert("Erro", "Por favor, digite seu número de WhatsApp.");
+      return;
+    }
+    if (!formData.email.trim()) {
+      Alert.alert("Erro", "Por favor, digite seu e-mail corporativo.");
+      return;
+    }
+    if (!formData.siteLink.trim()) {
+      Alert.alert("Erro", "Por favor, digite o link do seu site.");
+      return;
+    }
+    if (!formData.aceitaTermos) {
+      Alert.alert("Erro", "Por favor, aceite os termos de uso.");
+      return;
+    }
+
+    // Validação de e-mail simples
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      Alert.alert("Erro", "Por favor, digite um e-mail válido.");
+      return;
+    }
+
+    // Aqui você pode implementar a lógica de envio dos dados
+    console.log("Dados do formulário:", formData);
+    Alert.alert(
+      "Sucesso!",
+      "Sua solicitação foi enviada com sucesso! Entraremos em contato em breve.",
+      [{ text: "OK", onPress: onGoBack }]
+    );
+  };
+
+  const updateFormData = (field: string, value: string | boolean) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  return (
+    <ScrollView style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        {isWeb ? (
+          <>
+            <Text style={styles.logo}>🚀 AppConverter</Text>
+            <View style={styles.nav}>
+              <Text style={styles.navItem}>Como Funciona</Text>
+              <Text style={styles.navItem}>Vantagens</Text>
+              <Text style={styles.navItem}>Preços</Text>
+            </View>
+          </>
+        ) : (
+          <>
+            <TouchableOpacity onPress={onGoBack}>
+              <Text style={styles.backButton}>← Voltar</Text>
+            </TouchableOpacity>
+            <Text style={styles.logo}>🚀 AppConverter</Text>
+            <TouchableOpacity
+              style={styles.hamburgerButton}
+              onPress={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              <Text style={styles.hamburgerIcon}>{isMenuOpen ? "✕" : "☰"}</Text>
+            </TouchableOpacity>
+          </>
+        )}
+      </View>
+
+      {/* Mobile Menu Overlay */}
+      {!isWeb && isMenuOpen && (
+        <View style={styles.mobileMenu}>
+          <TouchableOpacity style={styles.mobileMenuItem}>
+            <Text style={styles.mobileMenuText}>Como Funciona</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.mobileMenuItem}>
+            <Text style={styles.mobileMenuText}>Vantagens</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.mobileMenuItem}>
+            <Text style={styles.mobileMenuText}>Preços</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+
+      {/* Main Content */}
+      <View style={styles.mainContent}>
+        <View style={styles.formContainer}>
+          <Text style={styles.formTitle}>📋 Solicitar Demonstração</Text>
+          <Text style={styles.formSubtitle}>
+            Preencha seus dados e receba uma demonstração personalizada do seu app
+          </Text>
+
+          <View style={styles.form}>
+            {/* Nome */}
+            <View style={styles.inputGroup}>
+              <Text style={styles.inputLabel}>Nome *</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Digite seu nome"
+                value={formData.nome}
+                onChangeText={(text) => updateFormData("nome", text)}
+                placeholderTextColor="#999"
+              />
+            </View>
+
+            {/* Sobrenome */}
+            <View style={styles.inputGroup}>
+              <Text style={styles.inputLabel}>Sobrenome *</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Digite seu sobrenome"
+                value={formData.sobrenome}
+                onChangeText={(text) => updateFormData("sobrenome", text)}
+                placeholderTextColor="#999"
+              />
+            </View>
+
+            {/* WhatsApp */}
+            <View style={styles.inputGroup}>
+              <Text style={styles.inputLabel}>Número de WhatsApp *</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="(11) 99999-9999"
+                value={formData.whatsapp}
+                onChangeText={(text) => updateFormData("whatsapp", text)}
+                placeholderTextColor="#999"
+                keyboardType="phone-pad"
+              />
+            </View>
+
+            {/* E-mail */}
+            <View style={styles.inputGroup}>
+              <Text style={styles.inputLabel}>E-mail Corporativo *</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="seu@email.com"
+                value={formData.email}
+                onChangeText={(text) => updateFormData("email", text)}
+                placeholderTextColor="#999"
+                keyboardType="email-address"
+                autoCapitalize="none"
+              />
+            </View>
+
+            {/* Link do Site */}
+            <View style={styles.inputGroup}>
+              <Text style={styles.inputLabel}>Link do Site *</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="https://seu-site.com.br"
+                value={formData.siteLink}
+                onChangeText={(text) => updateFormData("siteLink", text)}
+                placeholderTextColor="#999"
+                keyboardType="url"
+                autoCapitalize="none"
+              />
+            </View>
+
+            {/* Checkbox Termos */}
+            <TouchableOpacity
+              style={styles.checkboxContainer}
+              onPress={() => updateFormData("aceitaTermos", !formData.aceitaTermos)}
+            >
+              <View style={[styles.checkbox, formData.aceitaTermos && styles.checkboxChecked]}>
+                {formData.aceitaTermos && <Text style={styles.checkboxCheck}>✓</Text>}
+              </View>
+              <Text style={styles.checkboxLabel}>
+                Aceito os termos de uso e política de privacidade *
+              </Text>
+            </TouchableOpacity>
+
+            {/* Botão Submit */}
+            <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+              <Text style={styles.submitButtonText}>🚀 Solicitar Demonstração</Text>
+            </TouchableOpacity>
+
+            {/* Botão Voltar (apenas Web) */}
+            {isWeb && (
+              <TouchableOpacity style={styles.backButtonWeb} onPress={onGoBack}>
+                <Text style={styles.backButtonWebText}>← Voltar para página inicial</Text>
+              </TouchableOpacity>
+            )}
+
+            <Text style={styles.formNote}>
+              * Campos obrigatórios
+            </Text>
+          </View>
+        </View>
+      </View>
+
+      {/* Footer */}
+      <View style={styles.footer}>
+        <View style={styles.footerContent}>
+          {/* Seção 1: Empresa */}
+          <View style={styles.footerSection}>
+            <Text style={styles.footerLogo}>🚀 AppConverter</Text>
+            <Text style={styles.footerSubtitle}>
+              A solução revolucionária para sua empresa ter um app excelente,
+              barato e rápido
+            </Text>
+            <View style={styles.socialButtons}>
+              <TouchableOpacity style={styles.socialButton}>
+                <Text style={styles.socialButtonText}>📷 Instagram</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.socialButton}>
+                <Text style={styles.socialButtonText}>💼 LinkedIn</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          {/* Seção 2: Menu */}
+          <View style={styles.footerSection}>
+            <Text style={styles.footerSectionTitle}>Menu</Text>
+            <TouchableOpacity style={styles.footerLink}>
+              <Text style={styles.footerLinkText}>Sobre Nós</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.footerLink}>
+              <Text style={styles.footerLinkText}>Como Funciona?</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.footerLink}>
+              <Text style={styles.footerLinkText}>Dúvidas Frequentes</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.footerLink}>
+              <Text style={styles.footerLinkText}>Fale Conosco</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.footerLink}>
+              <Text style={styles.footerLinkText}>Blog</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Seção 3: Fale Conosco */}
+          <View style={styles.footerSection}>
+            <Text style={styles.footerSectionTitle}>Fale Conosco</Text>
+            <TouchableOpacity style={styles.whatsappButton}>
+              <Text style={styles.whatsappButtonText}>💬 WhatsApp</Text>
+            </TouchableOpacity>
+            <Text style={styles.emailText}>contato@appconverter.com.br</Text>
+          </View>
+
+          {/* Seção 4: Receba Novidades */}
+          <View style={styles.footerSection}>
+            <Text style={styles.footerSectionTitle}>Receba Novidades</Text>
+            <Text style={styles.newsletterDescription}>
+              Fique por dentro das últimas novidades e dicas sobre apps
+            </Text>
+            <View style={styles.newsletterContainer}>
+              <TextInput
+                style={styles.newsletterInput}
+                placeholder="Seu e-mail"
+                placeholderTextColor="#9ca3af"
+              />
+              <TouchableOpacity style={styles.newsletterButton}>
+                <Text style={styles.newsletterButtonText}>Inscrever</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+
+        {/* Copyright */}
+        <View style={styles.footerBottom}>
+          <Text style={styles.copyrightText}>
+            © 2024 AppConverter - Todos os direitos reservados
+          </Text>
+        </View>
+      </View>
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
+
+  // Header
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    backgroundColor: "#fff",
+    borderBottomWidth: 1,
+    borderBottomColor: "#f0f0f0",
+  },
+  backButton: {
+    fontSize: 16,
+    color: "#2563eb",
+    fontWeight: "500",
+  },
+  logo: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#2563eb",
+  },
+  nav: {
+    flexDirection: "row",
+    gap: 20,
+    alignItems: "center",
+  },
+  navItem: {
+    fontSize: 16,
+    color: "#666",
+    fontWeight: "500",
+  },
+
+  // Hamburger Menu
+  hamburgerButton: {
+    padding: 8,
+  },
+  hamburgerIcon: {
+    fontSize: 24,
+    color: "#2563eb",
+    fontWeight: "bold",
+  },
+  mobileMenu: {
+    position: "absolute",
+    top: 70,
+    left: 0,
+    right: 0,
+    backgroundColor: "#fff",
+    borderBottomWidth: 1,
+    borderBottomColor: "#f0f0f0",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 5,
+    zIndex: 1000,
+  },
+  mobileMenuItem: {
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: "#f5f5f5",
+  },
+  mobileMenuText: {
+    fontSize: 16,
+    color: "#666",
+    fontWeight: "500",
+    textAlign: "center",
+  },
+
+  // Main Content
+  mainContent: {
+    flex: 1,
+    paddingHorizontal: 20,
+    paddingVertical: 40,
+    backgroundColor: "#f8faff",
+    alignItems: "center",
+  },
+
+  // Form Container
+  formContainer: {
+    backgroundColor: "#fff",
+    borderRadius: 16,
+    padding: 30,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 20,
+    elevation: 10,
+    maxWidth: 600,
+    width: "100%",
+  },
+  formTitle: {
+    fontSize: 28,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "#1f2937",
+    marginBottom: 10,
+  },
+  formSubtitle: {
+    fontSize: 16,
+    textAlign: "center",
+    color: "#6b7280",
+    marginBottom: 30,
+  },
+
+  // Form
+  form: {
+    gap: 20,
+  },
+  inputGroup: {
+    gap: 8,
+  },
+  inputLabel: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#1f2937",
+  },
+  input: {
+    height: 50,
+    borderWidth: 2,
+    borderColor: "#e5e7eb",
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    fontSize: 16,
+    backgroundColor: "#f9fafb",
+    color: "#1f2937",
+  },
+
+  // Checkbox
+  checkboxContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    marginTop: 10,
+  },
+  checkbox: {
+    width: 24,
+    height: 24,
+    borderWidth: 2,
+    borderColor: "#e5e7eb",
+    borderRadius: 6,
+    backgroundColor: "#f9fafb",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  checkboxChecked: {
+    backgroundColor: "#2563eb",
+    borderColor: "#2563eb",
+  },
+  checkboxCheck: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  checkboxLabel: {
+    fontSize: 14,
+    color: "#6b7280",
+    flex: 1,
+  },
+
+  // Submit Button
+  submitButton: {
+    backgroundColor: "#2563eb",
+    paddingVertical: 16,
+    borderRadius: 12,
+    alignItems: "center",
+    marginTop: 10,
+  },
+  submitButtonText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+
+  // Form Note
+  formNote: {
+    fontSize: 14,
+    color: "#6b7280",
+    textAlign: "center",
+    marginTop: 10,
+  },
+
+  // Back Button Web
+  backButtonWeb: {
+    marginTop: 20,
+    paddingVertical: 12,
+    alignItems: "center",
+  },
+  backButtonWebText: {
+    fontSize: 16,
+    color: "#2563eb",
+    fontWeight: "500",
+    textDecorationLine: "underline",
+  },
+
+  // Footer (copiado do App.tsx)
+  footer: {
+    backgroundColor: "#1f2937",
+    paddingVertical: 40,
+  },
+  footerContent: {
+    flexDirection: isWeb ? "row" : "column",
+    paddingHorizontal: 20,
+    gap: isWeb ? 40 : 30,
+    justifyContent: "space-between",
+    maxWidth: 1200,
+    alignSelf: "center",
+    width: "100%",
+  },
+  footerSection: {
+    flex: 1,
+    minWidth: isWeb ? 250 : undefined,
+  },
+  footerLogo: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#fff",
+    marginBottom: 12,
+  },
+  footerSubtitle: {
+    fontSize: 14,
+    color: "#9ca3af",
+    lineHeight: 20,
+    marginBottom: 20,
+  },
+  socialButtons: {
+    flexDirection: "row",
+    gap: 10,
+  },
+  socialButton: {
+    backgroundColor: "#374151",
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 8,
+  },
+  socialButtonText: {
+    color: "#fff",
+    fontSize: 14,
+    fontWeight: "500",
+  },
+  footerSectionTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#fff",
+    marginBottom: 16,
+  },
+  footerLink: {
+    paddingVertical: 6,
+  },
+  footerLinkText: {
+    fontSize: 14,
+    color: "#9ca3af",
+    lineHeight: 20,
+  },
+  whatsappButton: {
+    backgroundColor: "#059669",
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 8,
+    marginBottom: 12,
+    alignItems: "center",
+    maxWidth: 150,
+  },
+  whatsappButtonText: {
+    color: "#fff",
+    fontSize: 14,
+    fontWeight: "bold",
+  },
+  emailText: {
+    fontSize: 14,
+    color: "#9ca3af",
+    marginTop: 8,
+  },
+  newsletterDescription: {
+    fontSize: 14,
+    color: "#9ca3af",
+    lineHeight: 20,
+    marginBottom: 16,
+  },
+  newsletterContainer: {
+    flexDirection: "column",
+    gap: 10,
+  },
+  newsletterInput: {
+    backgroundColor: "#374151",
+    borderWidth: 1,
+    borderColor: "#4b5563",
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    fontSize: 14,
+    color: "#fff",
+  },
+  newsletterButton: {
+    backgroundColor: "#2563eb",
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  newsletterButtonText: {
+    color: "#fff",
+    fontSize: 14,
+    fontWeight: "bold",
+  },
+  footerBottom: {
+    borderTopWidth: 1,
+    borderTopColor: "#374151",
+    marginTop: 40,
+    paddingTop: 20,
+    alignItems: "center",
+  },
+  copyrightText: {
+    fontSize: 14,
+    color: "#9ca3af",
+    textAlign: "center",
+  },
+});
