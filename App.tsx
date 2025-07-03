@@ -609,7 +609,7 @@ const styles = StyleSheet.create({
   },
   phoneImage: {
     width: isWeb ? 280 : 180,
-    height: isWeb ? 660 : 560,
+    height: isWeb ? 660 : 360,
     resizeMode: "contain",
     position: "absolute",
     left: 30,
@@ -617,7 +617,7 @@ const styles = StyleSheet.create({
   },
   phoneImage2: {
     width: isWeb ? 380 : 240,
-    height: isWeb ? 760 : 620,
+    height: isWeb ? 760 : 320,
     resizeMode: "contain",
     position: "absolute",
     right: isWeb ? 0 : 30,
