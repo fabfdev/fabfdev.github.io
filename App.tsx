@@ -559,10 +559,12 @@ const styles = StyleSheet.create({
   convertButton: {
     backgroundColor: "#2563eb",
     paddingHorizontal: 24,
-    paddingVertical: 15,
+    height: 50,
     borderRadius: 12,
     marginLeft: isWeb ? 10 : 0,
     minWidth: isWeb ? 200 : undefined,
+    justifyContent: "center",
+    alignItems: "center",
   },
   convertButtonText: {
     color: "#fff",
