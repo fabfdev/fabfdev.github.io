@@ -29,51 +29,53 @@ export default function DemoPage({ onGoBack }: DemoPageProps) {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const handleSubmit = () => {
-    // Validações
-    if (!formData.nome.trim()) {
-      Alert.alert("Erro", "Por favor, digite seu nome.");
-      return;
+  const handleSubmit = async () => {
+    try {
+      // Enviar dados para Google Forms
+      await submitToGoogleForms(formData);
+    } catch (error) {
+      console.error("Erro ao enviar formulário:", error);
     }
-    if (!formData.sobrenome.trim()) {
-      Alert.alert("Erro", "Por favor, digite seu sobrenome.");
-      return;
-    }
-    if (!formData.whatsapp.trim()) {
-      Alert.alert("Erro", "Por favor, digite seu número de WhatsApp.");
-      return;
-    }
-    if (!formData.email.trim()) {
-      Alert.alert("Erro", "Por favor, digite seu e-mail corporativo.");
-      return;
-    }
-    if (!formData.siteLink.trim()) {
-      Alert.alert("Erro", "Por favor, digite o link do seu site.");
-      return;
-    }
-    if (!formData.aceitaTermos) {
-      Alert.alert("Erro", "Por favor, aceite os termos de uso.");
-      return;
-    }
+  };
 
-    // Validação de e-mail simples
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
-      Alert.alert("Erro", "Por favor, digite um e-mail válido.");
-      return;
-    }
+  // Função para enviar dados ao Google Forms
+  const submitToGoogleForms = async (data: typeof formData) => {
+    // CONFIGURAÇÃO DO GOOGLE FORMS
+    // Substitua pela URL do seu Google Forms e pelos IDs dos campos
+    const GOOGLE_FORMS_URL =
+      "https://docs.google.com/forms/d/e/1FAIpQLSeHt1yiq4L22-jtzWEgoiz8AhtQ2btzIaKW1wjjDd42Td19aQ/formResponse";
 
-    // Aqui você pode implementar a lógica de envio dos dados
-    console.log("Dados do formulário:", formData);
-    Alert.alert(
-      "Sucesso!",
-      "Sua solicitação foi enviada com sucesso! Entraremos em contato em breve.",
-      [{ text: "OK", onPress: onGoBack }]
-    );
+    // IDs dos campos do Google Forms (você precisa descobrir esses IDs)
+    const FIELD_IDS = {
+      nome: "entry.568648339", // Substitua pelo ID real do campo Nome
+      sobrenome: "entry.314909935", // Substitua pelo ID real do campo Sobrenome
+      whatsapp: "entry.1604284716", // Substitua pelo ID real do campo WhatsApp
+      email: "entry.20252584", // Substitua pelo ID real do campo Email
+      siteLink: "entry.1507474404", // Substitua pelo ID real do campo Site
+    };
+
+    // Criar FormData para envio
+    const formDataToSend = new FormData();
+    formDataToSend.append(FIELD_IDS.nome, data.nome);
+    formDataToSend.append(FIELD_IDS.sobrenome, data.sobrenome);
+    formDataToSend.append(FIELD_IDS.whatsapp, data.whatsapp);
+    formDataToSend.append(FIELD_IDS.email, data.email);
+    formDataToSend.append(FIELD_IDS.siteLink, data.siteLink);
+
+    // Fazer a requisição
+    const response = await fetch(GOOGLE_FORMS_URL, {
+      method: "POST",
+      body: formDataToSend,
+      mode: "no-cors", // Importante para Google Forms
+    });
+
+    // Nota: Com mode: "no-cors", não conseguimos verificar o status da resposta
+    // mas se não houver erro, o envio foi bem-sucedido
+    console.log("Dados enviados para Google Forms:", data);
   };
 
   const updateFormData = (field: string, value: string | boolean) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [field]: value,
     }));
@@ -128,7 +130,8 @@ export default function DemoPage({ onGoBack }: DemoPageProps) {
         <View style={styles.formContainer}>
           <Text style={styles.formTitle}>📋 Solicitar Demonstração</Text>
           <Text style={styles.formSubtitle}>
-            Preencha seus dados e receba uma demonstração personalizada do seu app
+            Preencha seus dados e receba uma demonstração personalizada do seu
+            app
           </Text>
 
           <View style={styles.form}>
@@ -200,10 +203,19 @@ export default function DemoPage({ onGoBack }: DemoPageProps) {
             {/* Checkbox Termos */}
             <TouchableOpacity
               style={styles.checkboxContainer}
-              onPress={() => updateFormData("aceitaTermos", !formData.aceitaTermos)}
+              onPress={() =>
+                updateFormData("aceitaTermos", !formData.aceitaTermos)
+              }
             >
-              <View style={[styles.checkbox, formData.aceitaTermos && styles.checkboxChecked]}>
-                {formData.aceitaTermos && <Text style={styles.checkboxCheck}>✓</Text>}
+              <View
+                style={[
+                  styles.checkbox,
+                  formData.aceitaTermos && styles.checkboxChecked,
+                ]}
+              >
+                {formData.aceitaTermos && (
+                  <Text style={styles.checkboxCheck}>✓</Text>
+                )}
               </View>
               <Text style={styles.checkboxLabel}>
                 Aceito os termos de uso e política de privacidade *
@@ -211,20 +223,25 @@ export default function DemoPage({ onGoBack }: DemoPageProps) {
             </TouchableOpacity>
 
             {/* Botão Submit */}
-            <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-              <Text style={styles.submitButtonText}>🚀 Solicitar Demonstração</Text>
+            <TouchableOpacity
+              style={styles.submitButton}
+              onPress={handleSubmit}
+            >
+              <Text style={styles.submitButtonText}>
+                🚀 Solicitar Demonstração
+              </Text>
             </TouchableOpacity>
 
             {/* Botão Voltar (apenas Web) */}
             {isWeb && (
               <TouchableOpacity style={styles.backButtonWeb} onPress={onGoBack}>
-                <Text style={styles.backButtonWebText}>← Voltar para página inicial</Text>
+                <Text style={styles.backButtonWebText}>
+                  ← Voltar para página inicial
+                </Text>
               </TouchableOpacity>
             )}
 
-            <Text style={styles.formNote}>
-              * Campos obrigatórios
-            </Text>
+            <Text style={styles.formNote}>* Campos obrigatórios</Text>
           </View>
         </View>
       </View>
