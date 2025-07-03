@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   View,
   Dimensions,
-  Alert,
 } from 'react-native';
 
 const { width: screenWidth } = Dimensions.get('window');
@@ -19,11 +18,7 @@ export default function App() {
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
 
   const handleConvertWebsite = () => {
-    if (!websiteUrl) {
-      Alert.alert('Erro', 'Por favor, insira a URL do seu site');
-      return;
-    }
-    Alert.alert('Sucesso!', `Vamos converter seu site: ${websiteUrl}`);
+    
   };
 
   const toggleFaq = (index: number) => {
@@ -73,40 +68,90 @@ export default function App() {
 
       {/* Hero Section */}
       <View style={styles.heroSection}>
-        <Text style={styles.heroTitle}>
-          Transforme seu <Text style={styles.highlight}>E-commerce</Text> em um App Nativo
-        </Text>
-        <Text style={styles.heroSubtitle}>
-          Converta seu site em um aplicativo mobile profissional em minutos.
-          Aumente suas vendas com a experiência nativa que seus clientes merecem.
-        </Text>
-        
-        {/* Converter Section */}
-        <View style={styles.converterSection}>
-          <Text style={styles.converterTitle}>🎯 Converter Meu Site</Text>
-          <Text style={styles.converterSubtitle}>
-            Digite a URL do seu e-commerce e veja a mágica acontecer
-          </Text>
-          
-          <View style={styles.inputContainer}>
-            <TextInput
-              style={styles.urlInput}
-              placeholder="https://sua-loja.com.br"
-              value={websiteUrl}
-              onChangeText={setWebsiteUrl}
-              placeholderTextColor="#999"
-            />
-            <TouchableOpacity 
-              style={styles.convertButton}
-              onPress={handleConvertWebsite}
-            >
-              <Text style={styles.convertButtonText}>Converter Agora 🚀</Text>
-            </TouchableOpacity>
+        {/* Converter Section with Phone Mockup */}
+        <View style={styles.converterMainContainer}>
+          <View style={styles.converterLeftSide}>
+            <Text style={styles.heroTitle}>
+              Transforme seu <Text style={styles.highlight}>E-commerce</Text> em um App Nativo
+            </Text>
+            <Text style={styles.heroSubtitle}>
+              Converta seu site em um aplicativo mobile profissional em minutos.
+              Aumente suas vendas com a experiência nativa que seus clientes merecem.
+            </Text>
+            
+            <View style={styles.converterSection}>
+              <Text style={styles.converterTitle}>🎯 Converter Meu Site</Text>
+              <Text style={styles.converterSubtitle}>
+                Digite a URL do seu e-commerce e veja a mágica acontecer
+              </Text>
+              
+              <View style={styles.inputContainer}>
+                <TextInput
+                  style={styles.urlInput}
+                  placeholder="https://sua-loja.com.br"
+                  value={websiteUrl}
+                  onChangeText={setWebsiteUrl}
+                  placeholderTextColor="#999"
+                />
+                <TouchableOpacity 
+                  style={styles.convertButton}
+                  onPress={handleConvertWebsite}
+                >
+                  <Text style={styles.convertButtonText}>Converter Agora 🚀</Text>
+                </TouchableOpacity>
+              </View>
+              
+              <Text style={styles.convertNote}>
+                ✅ Grátis para testar • ⚡ Resultado em 24h • 🔒 100% Seguro
+              </Text>
+            </View>
           </View>
           
-          <Text style={styles.convertNote}>
-            ✅ Grátis para testar • ⚡ Resultado em 24h • 🔒 100% Seguro
-          </Text>
+          {/* Phone Mockup */}
+          <View style={styles.phoneMockupContainer}>
+            <View style={styles.phoneFrame}>
+              <View style={styles.phoneScreen}>
+                <View style={styles.phoneStatusBar}>
+                  <Text style={styles.phoneTime}>9:41</Text>
+                  <View style={styles.phoneSignals}>
+                    <Text style={styles.phoneSignal}>•••</Text>
+                    <Text style={styles.phoneBattery}>🔋</Text>
+                  </View>
+                </View>
+                
+                <View style={styles.appHeader}>
+                  <Text style={styles.appTitle}>Sua Loja</Text>
+                  <Text style={styles.appSubtitle}>🛍️</Text>
+                </View>
+                
+                <View style={styles.appContent}>
+                  <View style={styles.productCard}>
+                    <View style={styles.productImage} />
+                    <Text style={styles.productName}>Produto Demo</Text>
+                    <Text style={styles.productPrice}>R$ 99,90</Text>
+                  </View>
+                  
+                  <View style={styles.productCard}>
+                    <View style={styles.productImage} />
+                    <Text style={styles.productName}>Produto Demo</Text>
+                    <Text style={styles.productPrice}>R$ 149,90</Text>
+                  </View>
+                </View>
+                
+                <View style={styles.appBottomNav}>
+                  <View style={styles.bottomNavItem}>
+                    <Text style={styles.navIcon}>🏠</Text>
+                  </View>
+                  <View style={styles.bottomNavItem}>
+                    <Text style={styles.navIcon}>🛍️</Text>
+                  </View>
+                  <View style={styles.bottomNavItem}>
+                    <Text style={styles.navIcon}>👤</Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
         </View>
       </View>
 
@@ -448,6 +493,136 @@ const styles = StyleSheet.create({
     color: '#059669',
     marginTop: 15,
     fontWeight: '500',
+  },
+  
+  // Converter Main Container
+  converterMainContainer: {
+    flexDirection: isWeb ? 'row' : 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 40,
+    maxWidth: 1200,
+    width: '100%',
+  },
+  
+  // Converter Left Side
+  converterLeftSide: {
+    flex: 1,
+    alignItems: 'center',
+    maxWidth: isWeb ? 600 : undefined,
+  },
+  
+  // Phone Mockup
+  phoneMockupContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  phoneFrame: {
+    width: 280,
+    height: 560,
+    backgroundColor: '#1f2937',
+    borderRadius: 30,
+    padding: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 20 },
+    shadowOpacity: 0.3,
+    shadowRadius: 40,
+    elevation: 20,
+  },
+  phoneScreen: {
+    flex: 1,
+    backgroundColor: '#fff',
+    borderRadius: 22,
+    overflow: 'hidden',
+  },
+  phoneStatusBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    backgroundColor: '#f8faff',
+  },
+  phoneTime: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#1f2937',
+  },
+  phoneSignals: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  phoneSignal: {
+    fontSize: 12,
+    color: '#1f2937',
+  },
+  phoneBattery: {
+    fontSize: 14,
+  },
+  appHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    backgroundColor: '#2563eb',
+  },
+  appTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+  appSubtitle: {
+    fontSize: 20,
+  },
+  appContent: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: '#f8faff',
+  },
+  productCard: {
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    padding: 12,
+    marginBottom: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  productImage: {
+    width: '100%',
+    height: 80,
+    backgroundColor: '#e5e7eb',
+    borderRadius: 8,
+    marginBottom: 8,
+  },
+  productName: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#1f2937',
+    marginBottom: 4,
+  },
+  productPrice: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#2563eb',
+  },
+  appBottomNav: {
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    paddingVertical: 12,
+    borderTopWidth: 1,
+    borderTopColor: '#e5e7eb',
+  },
+  bottomNavItem: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  navIcon: {
+    fontSize: 20,
   },
   
   // Sections
