@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import {
   ScrollView,
@@ -27,7 +27,7 @@ export default function App() {
   };
 
   const toggleFaq = (index: number) => {
-    setExpandedFaq(expandedFaq === index ? null : index);
+    setExpandedFaq(expandedFaq === index ? 0 : index);
   };
 
   const faqs = [
@@ -52,6 +52,10 @@ export default function App() {
       answer: 'Não! Nosso processo é 100% automatizado. Você só precisa fornecer a URL do seu site.'
     }
   ];
+
+  useEffect(() => {
+    toggleFaq(0);
+  }, []);
 
   return (
     <ScrollView style={styles.container}>
@@ -249,7 +253,77 @@ export default function App() {
 
       {/* Footer */}
       <View style={styles.footer}>
-        <Text style={styles.footerText}>© 2024 AppConverter - Todos os direitos reservados</Text>
+        <View style={styles.footerContent}>
+          
+          {/* Seção 1: Empresa */}
+          <View style={styles.footerSection}>
+            <Text style={styles.footerLogo}>🚀 AppConverter</Text>
+            <Text style={styles.footerSubtitle}>
+              A solução revolucionária para sua empresa ter um app excelente, barato e rápido
+            </Text>
+            <View style={styles.socialButtons}>
+              <TouchableOpacity style={styles.socialButton}>
+                <Text style={styles.socialButtonText}>📷 Instagram</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.socialButton}>
+                <Text style={styles.socialButtonText}>💼 LinkedIn</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          
+          {/* Seção 2: Menu */}
+          <View style={styles.footerSection}>
+            <Text style={styles.footerSectionTitle}>Menu</Text>
+            <TouchableOpacity style={styles.footerLink}>
+              <Text style={styles.footerLinkText}>Sobre Nós</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.footerLink}>
+              <Text style={styles.footerLinkText}>Como Funciona?</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.footerLink}>
+              <Text style={styles.footerLinkText}>Dúvidas Frequentes</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.footerLink}>
+              <Text style={styles.footerLinkText}>Fale Conosco</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.footerLink}>
+              <Text style={styles.footerLinkText}>Blog</Text>
+            </TouchableOpacity>
+          </View>
+          
+          {/* Seção 3: Fale Conosco */}
+          <View style={styles.footerSection}>
+            <Text style={styles.footerSectionTitle}>Fale Conosco</Text>
+            <TouchableOpacity style={styles.whatsappButton}>
+              <Text style={styles.whatsappButtonText}>💬 WhatsApp</Text>
+            </TouchableOpacity>
+            <Text style={styles.emailText}>contato@appconverter.com.br</Text>
+          </View>
+          
+          {/* Seção 4: Receba Novidades */}
+          <View style={styles.footerSection}>
+            <Text style={styles.footerSectionTitle}>Receba Novidades</Text>
+            <Text style={styles.newsletterDescription}>
+              Fique por dentro das últimas novidades e dicas sobre apps
+            </Text>
+            <View style={styles.newsletterContainer}>
+              <TextInput
+                style={styles.newsletterInput}
+                placeholder="Seu e-mail"
+                placeholderTextColor="#9ca3af"
+              />
+              <TouchableOpacity style={styles.newsletterButton}>
+                <Text style={styles.newsletterButtonText}>Inscrever</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          
+        </View>
+        
+        {/* Copyright */}
+        <View style={styles.footerBottom}>
+          <Text style={styles.copyrightText}>© 2024 AppConverter - Todos os direitos reservados</Text>
+        </View>
       </View>
     </ScrollView>
   );
@@ -619,12 +693,136 @@ const styles = StyleSheet.create({
   
   // Footer
   footer: {
-    backgroundColor: '#f9fafb',
-    paddingVertical: 30,
+    backgroundColor: '#1f2937',
+    paddingVertical: 40,
+  },
+  footerContent: {
+    flexDirection: isWeb ? 'row' : 'column',
+    paddingHorizontal: 20,
+    gap: isWeb ? 40 : 30,
+    justifyContent: 'space-between',
+    maxWidth: 1200,
+    alignSelf: 'center',
+    width: '100%',
+  },
+  
+  // Footer Sections
+  footerSection: {
+    flex: 1,
+    minWidth: isWeb ? 250 : undefined,
+  },
+  
+  // Seção 1: Empresa
+  footerLogo: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginBottom: 12,
+  },
+  footerSubtitle: {
+    fontSize: 14,
+    color: '#9ca3af',
+    lineHeight: 20,
+    marginBottom: 20,
+  },
+  socialButtons: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  socialButton: {
+    backgroundColor: '#374151',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 8,
+  },
+  socialButtonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  
+  // Seção 2: Menu
+  footerSectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginBottom: 16,
+  },
+  footerLink: {
+    paddingVertical: 6,
+  },
+  footerLinkText: {
+    fontSize: 14,
+    color: '#9ca3af',
+    lineHeight: 20,
+  },
+  
+  // Seção 3: Fale Conosco
+  whatsappButton: {
+    backgroundColor: '#059669',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 8,
+    marginBottom: 12,
+    alignItems: 'center',
+    maxWidth: 150,
+  },
+  whatsappButtonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  emailText: {
+    fontSize: 14,
+    color: '#9ca3af',
+    marginTop: 8,
+  },
+  
+  // Seção 4: Newsletter
+  newsletterDescription: {
+    fontSize: 14,
+    color: '#9ca3af',
+    lineHeight: 20,
+    marginBottom: 16,
+  },
+  newsletterContainer: {
+    flexDirection: 'column',
+    gap: 10,
+  },
+  newsletterInput: {
+    backgroundColor: '#374151',
+    borderWidth: 1,
+    borderColor: '#4b5563',
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    fontSize: 14,
+    color: '#fff',
+  },
+  newsletterButton: {
+    backgroundColor: '#2563eb',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 8,
     alignItems: 'center',
   },
-  footerText: {
+  newsletterButtonText: {
+    color: '#fff',
     fontSize: 14,
-    color: '#6b7280',
+    fontWeight: 'bold',
+  },
+  
+  // Footer Bottom
+  footerBottom: {
+    borderTopWidth: 1,
+    borderTopColor: '#374151',
+    marginTop: 40,
+    paddingTop: 20,
+    alignItems: 'center',
+  },
+  copyrightText: {
+    fontSize: 14,
+    color: '#9ca3af',
+    textAlign: 'center',
   },
 });
