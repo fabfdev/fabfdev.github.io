@@ -9,6 +9,7 @@ import {
   View,
   Dimensions,
   Image,
+  Linking,
 } from "react-native";
 import { typeWritterEffect } from "./typeWriterEffect";
 import DemoPage from "./DemoPage";
@@ -43,15 +44,19 @@ export default function App() {
         "O processo é rápido! Em até 24 horas seu app estará pronto para download nas lojas.",
     },
     {
+      question: "Por que é tão acessível?",
+      answer: "Criamos uma tecnologia automatizada que nos permitiu cumprir nosso maior propósito: entregar ao maior número possível de e-commerces a possibilidade de terem seu aplicativo nas lojas de apps com um preço justo e em tempo record."
+    },
+    {
       question: "Posso personalizar as cores e o design do app?",
       answer:
         "Sim! Oferecemos total personalização de cores, ícones, nome e tema para combinar com sua marca.",
     },
-    {
-      question: "O app funciona offline?",
-      answer:
-        "Sim, implementamos cache inteligente que permite visualizar páginas visitadas mesmo offline.",
-    },
+    // {
+    //   question: "O app funciona offline?",
+    //   answer:
+    //     "Sim, implementamos cache inteligente que permite visualizar páginas visitadas mesmo offline.",
+    // },
     {
       question: "É compatível com iOS e Android?",
       answer:
@@ -274,13 +279,13 @@ export default function App() {
               Envie ofertas direto para seus clientes
             </Text>
           </View>
-          <View style={styles.advantageCard}>
+          {false && <View style={styles.advantageCard}>
             <Text style={styles.advantageIcon}>💾</Text>
             <Text style={styles.advantageTitle}>Funciona Offline</Text>
             <Text style={styles.advantageText}>
               Cache inteligente para navegação sem internet
             </Text>
-          </View>
+          </View>}
           <View style={styles.advantageCard}>
             <Text style={styles.advantageIcon}>🛒</Text>
             <Text style={styles.advantageTitle}>Conversão +60%</Text>
@@ -364,14 +369,14 @@ export default function App() {
               A solução revolucionária para sua empresa ter um app excelente,
               barato e rápido
             </Text>
-            <View style={styles.socialButtons}>
+            {false && <View style={styles.socialButtons}>
               <TouchableOpacity style={styles.socialButton}>
                 <Text style={styles.socialButtonText}>📷 Instagram</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.socialButton}>
                 <Text style={styles.socialButtonText}>💼 LinkedIn</Text>
               </TouchableOpacity>
-            </View>
+            </View>}
           </View>
 
           {/* Seção 2: Menu */}
@@ -397,10 +402,12 @@ export default function App() {
           {/* Seção 3: Fale Conosco */}
           <View style={styles.footerSection}>
             <Text style={styles.footerSectionTitle}>Fale Conosco</Text>
-            <TouchableOpacity style={styles.whatsappButton}>
+            <TouchableOpacity style={styles.whatsappButton} onPress={async () => {
+              await Linking.openURL("https://api.whatsapp.com/send?phone=5527998012664&text=Ola%2C%20eu%20tenho%20uma%20duvida%20sobre%20o%20AppConverter")
+            }}>
               <Text style={styles.whatsappButtonText}>💬 WhatsApp</Text>
             </TouchableOpacity>
-            <Text style={styles.emailText}>contato@appconverter.com.br</Text>
+            {/* <Text style={styles.emailText}>contato@appconverter.com.br</Text> */}
           </View>
 
           {/* Seção 4: Receba Novidades */}

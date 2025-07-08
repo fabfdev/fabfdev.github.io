@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   View,
   Dimensions,
-  Alert,
 } from "react-native";
 
 const { width: screenWidth } = Dimensions.get("window");
@@ -28,13 +27,52 @@ export default function DemoPage({ onGoBack }: DemoPageProps) {
   });
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async () => {
+    // Limpar mensagens anteriores
+    setShowSuccessMessage(false);
+    setShowErrorMessage(false);
+    
+    // Validação básica dos campos obrigatórios
+    if (!formData.nome || !formData.sobrenome || !formData.whatsapp || !formData.email || !formData.siteLink || !formData.aceitaTermos) {
+      setErrorMessage("Por favor, preencha todos os campos obrigatórios e aceite os termos de uso.");
+      setShowErrorMessage(true);
+      return;
+    }
+
     try {
+      setIsSubmitting(true);
       // Enviar dados para Google Forms
       await submitToGoogleForms(formData);
+      
+      // Mostrar mensagem de sucesso
+      setShowSuccessMessage(true);
+      
+      // Limpar o formulário
+      setFormData({
+        nome: "",
+        sobrenome: "",
+        whatsapp: "",
+        email: "",
+        siteLink: "",
+        aceitaTermos: false,
+      });
+      
+      // Ocultar mensagem de sucesso após 5 segundos
+      setTimeout(() => {
+        setShowSuccessMessage(false);
+      }, 5000);
+      
     } catch (error) {
       console.error("Erro ao enviar formulário:", error);
+      setErrorMessage("Ocorreu um erro ao enviar o formulário. Tente novamente.");
+      setShowErrorMessage(true);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -222,13 +260,39 @@ export default function DemoPage({ onGoBack }: DemoPageProps) {
               </Text>
             </TouchableOpacity>
 
+            {/* Mensagem de Sucesso */}
+            {showSuccessMessage && (
+              <View style={styles.successMessage}>
+                <Text style={styles.successMessageIcon}>✅</Text>
+                <Text style={styles.successMessageTitle}>Formulário enviado com sucesso!</Text>
+                <Text style={styles.successMessageText}>
+                  Recebemos sua solicitação e entraremos em contato em breve através do WhatsApp informado.
+                </Text>
+              </View>
+            )}
+
+            {/* Mensagem de Erro */}
+            {showErrorMessage && (
+              <View style={styles.errorMessage}>
+                <Text style={styles.errorMessageIcon}>❌</Text>
+                <Text style={styles.errorMessageTitle}>Erro no envio</Text>
+                <Text style={styles.errorMessageText}>
+                  {errorMessage}
+                </Text>
+              </View>
+            )}
+
             {/* Botão Submit */}
             <TouchableOpacity
-              style={styles.submitButton}
+              style={[
+                styles.submitButton,
+                isSubmitting && styles.submitButtonDisabled
+              ]}
               onPress={handleSubmit}
+              disabled={isSubmitting}
             >
               <Text style={styles.submitButtonText}>
-                🚀 Solicitar Demonstração
+                {isSubmitting ? "📤 Enviando..." : "🚀 Solicitar Demonstração"}
               </Text>
             </TouchableOpacity>
 
@@ -499,10 +563,70 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 10,
   },
+  submitButtonDisabled: {
+    backgroundColor: "#9ca3af",
+    opacity: 0.7,
+  },
   submitButtonText: {
     color: "#fff",
     fontSize: 18,
     fontWeight: "bold",
+  },
+
+  // Success Message
+  successMessage: {
+    backgroundColor: "#f0fdf4",
+    borderWidth: 1,
+    borderColor: "#16a34a",
+    borderRadius: 12,
+    padding: 20,
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  successMessageIcon: {
+    fontSize: 32,
+    marginBottom: 8,
+  },
+  successMessageTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#16a34a",
+    marginBottom: 8,
+    textAlign: "center",
+  },
+  successMessageText: {
+    fontSize: 14,
+    color: "#166534",
+    textAlign: "center",
+    lineHeight: 20,
+  },
+
+  // Error Message
+  errorMessage: {
+    backgroundColor: "#fef2f2",
+    borderWidth: 1,
+    borderColor: "#dc2626",
+    borderRadius: 12,
+    padding: 20,
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  errorMessageIcon: {
+    fontSize: 32,
+    marginBottom: 8,
+  },
+  errorMessageTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#dc2626",
+    marginBottom: 8,
+    textAlign: "center",
+  },
+  errorMessageText: {
+    fontSize: 14,
+    color: "#991b1b",
+    textAlign: "center",
+    lineHeight: 20,
   },
 
   // Form Note
