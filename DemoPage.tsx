@@ -255,9 +255,13 @@ export default function DemoPage({ onGoBack }: DemoPageProps) {
                   <Text style={styles.checkboxCheck}>✓</Text>
                 )}
               </View>
-              <Text style={styles.checkboxLabel}>
-                Aceito os termos de uso e política de privacidade *
-              </Text>
+              <View style={styles.checkboxLabelContainer}>
+                <Text style={styles.checkboxLabel}>Aceito os </Text>
+                <Text style={styles.checkboxLinkText}>termos de uso</Text>
+                <Text style={styles.checkboxLabel}> e </Text>
+                <Text style={styles.checkboxLinkText}>política de privacidade</Text>
+                <Text style={styles.checkboxLabel}> *</Text>
+              </View>
             </TouchableOpacity>
 
             {/* Mensagem de Sucesso */}
@@ -296,14 +300,12 @@ export default function DemoPage({ onGoBack }: DemoPageProps) {
               </Text>
             </TouchableOpacity>
 
-            {/* Botão Voltar (apenas Web) */}
-            {isWeb && (
-              <TouchableOpacity style={styles.backButtonWeb} onPress={onGoBack}>
-                <Text style={styles.backButtonWebText}>
-                  ← Voltar para página inicial
-                </Text>
-              </TouchableOpacity>
-            )}
+            {/* Botão Voltar */}
+            <TouchableOpacity style={styles.backButtonWeb} onPress={onGoBack}>
+              <Text style={styles.backButtonWebText}>
+                ← Voltar para página inicial
+              </Text>
+            </TouchableOpacity>
 
             <Text style={styles.formNote}>* Campos obrigatórios</Text>
           </View>
@@ -347,6 +349,12 @@ export default function DemoPage({ onGoBack }: DemoPageProps) {
             </TouchableOpacity>
             <TouchableOpacity style={styles.footerLink}>
               <Text style={styles.footerLinkText}>Blog</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.footerLink}>
+              <Text style={styles.footerLinkText}>Termos de Uso</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.footerLink}>
+              <Text style={styles.footerLinkText}>Política de Privacidade</Text>
             </TouchableOpacity>
           </View>
 
@@ -549,10 +557,19 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
+  checkboxLabelContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    flex: 1,
+  },
   checkboxLabel: {
     fontSize: 14,
     color: "#6b7280",
-    flex: 1,
+  },
+  checkboxLinkText: {
+    fontSize: 14,
+    color: "#2563eb",
+    textDecorationLine: "underline",
   },
 
   // Submit Button
@@ -642,12 +659,15 @@ const styles = StyleSheet.create({
     marginTop: 20,
     paddingVertical: 12,
     alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#2563eb",
+    borderRadius: 8,
+    backgroundColor: "#f8faff",
   },
   backButtonWebText: {
     fontSize: 16,
     color: "#2563eb",
     fontWeight: "500",
-    textDecorationLine: "underline",
   },
 
   // Footer (copiado do App.tsx)

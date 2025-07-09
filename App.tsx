@@ -13,6 +13,8 @@ import {
 } from "react-native";
 import { typeWritterEffect } from "./typeWriterEffect";
 import DemoPage from "./DemoPage";
+import TermosDeUso from "./TermosDeUso";
+import PoliticaPrivacidade from "./PoliticaPrivacidade";
 
 const { width: screenWidth } = Dimensions.get("window");
 const isWeb = screenWidth > 768;
@@ -21,7 +23,7 @@ export default function App() {
   const [websiteUrl, setWebsiteUrl] = useState("");
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState<"home" | "demo">("home");
+  const [currentPage, setCurrentPage] = useState<"home" | "demo" | "termos" | "privacidade">("home");
 
   const [message, setMessage] = useState("");
 
@@ -86,6 +88,14 @@ export default function App() {
 
   if (currentPage === "demo") {
     return <DemoPage onGoBack={handleGoBack} />;
+  }
+
+  if (currentPage === "termos") {
+    return <TermosDeUso onGoBack={handleGoBack} />;
+  }
+
+  if (currentPage === "privacidade") {
+    return <PoliticaPrivacidade onGoBack={handleGoBack} />;
   }
 
   return (
@@ -354,12 +364,12 @@ export default function App() {
           </Text>
         </TouchableOpacity>
         <Text style={styles.finalCtaSubtext}>
-          Junte-se a mais de 10.000 empresas que já aumentaram suas vendas com
+          Junte-se a dezenas de empresas que já aumentaram suas vendas com
           apps nativos
         </Text>
       </View>
 
-      {/* Footer */}
+{/* Footer */}
       <View style={styles.footer}>
         <View style={styles.footerContent}>
           {/* Seção 1: Empresa */}
@@ -369,6 +379,12 @@ export default function App() {
               A solução revolucionária para sua empresa ter um app excelente,
               barato e rápido
             </Text>
+            <TouchableOpacity onPress={() => setCurrentPage("termos")}>
+              <Text style={styles.footerLinkText}>Termos de Uso</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setCurrentPage("privacidade")}>
+              <Text style={styles.footerLinkText}>Política de Privacidade</Text>
+            </TouchableOpacity>
             {false && <View style={styles.socialButtons}>
               <TouchableOpacity style={styles.socialButton}>
                 <Text style={styles.socialButtonText}>📷 Instagram</Text>
