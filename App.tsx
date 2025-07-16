@@ -15,11 +15,14 @@ import { typeWritterEffect } from "./typeWriterEffect";
 import DemoPage from "./DemoPage";
 import TermosDeUso from "./TermosDeUso";
 import PoliticaPrivacidade from "./PoliticaPrivacidade";
+import { useLanguage } from "./LanguageContext";
+import LanguageButton from "./LanguageButton";
 
 const { width: screenWidth } = Dimensions.get("window");
 const isWeb = screenWidth > 768;
 
 export default function App() {
+  const { t } = useLanguage();
   const [websiteUrl, setWebsiteUrl] = useState("");
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -102,14 +105,15 @@ export default function App() {
     <ScrollView style={styles.container}>
       <StatusBar style="dark" />
 
-      {/* Header */}
+{/* Header */}
       <View style={styles.header}>
-        <Text style={styles.logo}>🚀 AppConverter</Text>
+        <Text style={styles.logo}>{t('logo')}</Text>
+        <LanguageButton />
         {isWeb ? (
           <View style={styles.nav}>
-            <Text style={styles.navItem}>Como Funciona</Text>
-            <Text style={styles.navItem}>Vantagens</Text>
-            <Text style={styles.navItem}>Preços</Text>
+            <Text style={styles.navItem}>{t('navigation.howItWorks')}</Text>
+            <Text style={styles.navItem}>{t('navigation.advantages')}</Text>
+            <Text style={styles.navItem}>{t('navigation.pricing')}</Text>
           </View>
         ) : (
           <TouchableOpacity
@@ -125,13 +129,13 @@ export default function App() {
       {!isWeb && isMenuOpen && (
         <View style={styles.mobileMenu}>
           <TouchableOpacity style={styles.mobileMenuItem}>
-            <Text style={styles.mobileMenuText}>Como Funciona</Text>
+            <Text style={styles.mobileMenuText}>{t('navigation.howItWorks')}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.mobileMenuItem}>
-            <Text style={styles.mobileMenuText}>Vantagens</Text>
+            <Text style={styles.mobileMenuText}>{t('navigation.advantages')}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.mobileMenuItem}>
-            <Text style={styles.mobileMenuText}>Preços</Text>
+            <Text style={styles.mobileMenuText}>{t('navigation.pricing')}</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -142,25 +146,22 @@ export default function App() {
         <View style={styles.converterMainContainer}>
           <View style={styles.converterLeftSide}>
             <Text style={styles.heroTitle}>
-              Transforme seu <Text style={styles.highlight}>{message}</Text> em
-              um App Nativo
+              {t('heroTitle')} <Text style={styles.highlight}>{message}</Text> {t('heroTitleEnd')}
             </Text>
             <Text style={styles.heroSubtitle}>
-              Converta seu site em um aplicativo mobile profissional em minutos.
-              Aumente suas vendas com a experiência nativa que seus clientes
-              merecem.
+              {t('heroSubtitle')}
             </Text>
 
             <View style={styles.converterSection}>
-              <Text style={styles.converterTitle}>🎯 Converter Meu Site</Text>
+              <Text style={styles.converterTitle}>{t('converterTitle')}</Text>
               <Text style={styles.converterSubtitle}>
-                Digite a URL do seu e-commerce e veja a mágica acontecer
+                {t('converterSubtitle')}
               </Text>
 
               <View style={styles.inputContainer}>
                 <TextInput
                   style={styles.urlInput}
-                  placeholder="https://sua-loja.com.br"
+                  placeholder={t('urlPlaceholder')}
                   value={websiteUrl}
                   onChangeText={setWebsiteUrl}
                   placeholderTextColor="#999"
@@ -170,13 +171,13 @@ export default function App() {
                   onPress={handleConvertWebsite}
                 >
                   <Text style={styles.convertButtonText}>
-                    Converter Agora 🚀
+                    {t('convertButton')}
                   </Text>
                 </TouchableOpacity>
               </View>
 
               <Text style={styles.convertNote}>
-                ✅ Grátis para testar • ⚡ Resultado em 24h • 🔒 100% Seguro
+                {t('convertNote')}
               </Text>
             </View>
           </View>
@@ -197,34 +198,34 @@ export default function App() {
 
       {/* Serve para sua empresa */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>💼 Serve para sua Empresa?</Text>
+        <Text style={styles.sectionTitle}>{t('businessTitle')}</Text>
         <View style={styles.businessCards}>
           <View style={styles.businessCard}>
-            <Text style={styles.businessIcon}>🛍️</Text>
-            <Text style={styles.businessTitle}>E-commerce</Text>
+            <Text style={styles.businessIcon}>🛑️</Text>
+            <Text style={styles.businessTitle}>{t('businessCards.ecommerce.title')}</Text>
             <Text style={styles.businessText}>
-              Lojas online, marketplaces, dropshipping
+              {t('businessCards.ecommerce.text')}
             </Text>
           </View>
           <View style={styles.businessCard}>
             <Text style={styles.businessIcon}>🍕</Text>
-            <Text style={styles.businessTitle}>Delivery</Text>
+            <Text style={styles.businessTitle}>{t('businessCards.delivery.title')}</Text>
             <Text style={styles.businessText}>
-              Restaurantes, farmácias, mercados
+              {t('businessCards.delivery.text')}
             </Text>
           </View>
           <View style={styles.businessCard}>
             <Text style={styles.businessIcon}>💼</Text>
-            <Text style={styles.businessTitle}>Serviços</Text>
+            <Text style={styles.businessTitle}>{t('businessCards.services.title')}</Text>
             <Text style={styles.businessText}>
-              Consultoria, agências, freelancers
+              {t('businessCards.services.text')}
             </Text>
           </View>
           <View style={styles.businessCard}>
             <Text style={styles.businessIcon}>🎓</Text>
-            <Text style={styles.businessTitle}>Educação</Text>
+            <Text style={styles.businessTitle}>{t('businessCards.education.title')}</Text>
             <Text style={styles.businessText}>
-              Cursos online, escolas, tutoring
+              {t('businessCards.education.text')}
             </Text>
           </View>
         </View>
@@ -232,13 +233,13 @@ export default function App() {
 
       {/* Como Funciona */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>⚙️ Como Funciona</Text>
+        <Text style={styles.sectionTitle}>{t('howItWorksTitle')}</Text>
         <View style={styles.howItWorksContainer}>
           <View style={styles.stepCard}>
             <Text style={styles.stepNumber}>1</Text>
-            <Text style={styles.stepTitle}>Cole a URL</Text>
+            <Text style={styles.stepTitle}>{t('steps.step1.title')}</Text>
             <Text style={styles.stepText}>
-              Insira o endereço do seu site e nós fazemos o resto
+              {t('steps.step1.text')}
             </Text>
           </View>
           <View style={styles.stepArrow}>
@@ -246,9 +247,9 @@ export default function App() {
           </View>
           <View style={styles.stepCard}>
             <Text style={styles.stepNumber}>2</Text>
-            <Text style={styles.stepTitle}>Personalize</Text>
+            <Text style={styles.stepTitle}>{t('steps.step2.title')}</Text>
             <Text style={styles.stepText}>
-              Escolha cores, ícones e nome do seu app
+              {t('steps.step2.text')}
             </Text>
           </View>
           <View style={styles.stepArrow}>
@@ -256,9 +257,9 @@ export default function App() {
           </View>
           <View style={styles.stepCard}>
             <Text style={styles.stepNumber}>3</Text>
-            <Text style={styles.stepTitle}>Publique</Text>
+            <Text style={styles.stepTitle}>{t('steps.step3.title')}</Text>
             <Text style={styles.stepText}>
-              Seu app está pronto para App Store e Google Play
+              {t('steps.step3.text')}
             </Text>
           </View>
         </View>
@@ -266,48 +267,41 @@ export default function App() {
 
       {/* Vantagens */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>🎯 Vantagens do App Nativo</Text>
+        <Text style={styles.sectionTitle}>{t('advantagesTitle')}</Text>
         <View style={styles.advantagesGrid}>
           <View style={styles.advantageCard}>
             <Text style={styles.advantageIcon}>⚡</Text>
-            <Text style={styles.advantageTitle}>Performance Superior</Text>
+            <Text style={styles.advantageTitle}>{t('advantages.performance.title')}</Text>
             <Text style={styles.advantageText}>
-              Carregamento 3x mais rápido que sites móveis
+              {t('advantages.performance.text')}
             </Text>
           </View>
           <View style={styles.advantageCard}>
             <Text style={styles.advantageIcon}>📱</Text>
-            <Text style={styles.advantageTitle}>Experiência Nativa</Text>
+            <Text style={styles.advantageTitle}>{t('advantages.experience.title')}</Text>
             <Text style={styles.advantageText}>
-              Interface otimizada para mobile com gestos nativos
+              {t('advantages.experience.text')}
             </Text>
           </View>
           <View style={styles.advantageCard}>
             <Text style={styles.advantageIcon}>🔔</Text>
-            <Text style={styles.advantageTitle}>Push Notifications</Text>
+            <Text style={styles.advantageTitle}>{t('advantages.notifications.title')}</Text>
             <Text style={styles.advantageText}>
-              Envie ofertas direto para seus clientes
+              {t('advantages.notifications.text')}
             </Text>
           </View>
-          {false && <View style={styles.advantageCard}>
-            <Text style={styles.advantageIcon}>💾</Text>
-            <Text style={styles.advantageTitle}>Funciona Offline</Text>
-            <Text style={styles.advantageText}>
-              Cache inteligente para navegação sem internet
-            </Text>
-          </View>}
           <View style={styles.advantageCard}>
             <Text style={styles.advantageIcon}>🛒</Text>
-            <Text style={styles.advantageTitle}>Conversão +60%</Text>
+            <Text style={styles.advantageTitle}>{t('advantages.conversion.title')}</Text>
             <Text style={styles.advantageText}>
-              Apps convertem muito mais que sites móveis
+              {t('advantages.conversion.text')}
             </Text>
           </View>
           <View style={styles.advantageCard}>
             <Text style={styles.advantageIcon}>🎨</Text>
-            <Text style={styles.advantageTitle}>100% Customizável</Text>
+            <Text style={styles.advantageTitle}>{t('advantages.customizable.title')}</Text>
             <Text style={styles.advantageText}>
-              Cores, ícones e tema da sua marca
+              {t('advantages.customizable.text')}
             </Text>
           </View>
         </View>
@@ -315,25 +309,24 @@ export default function App() {
 
       {/* Garantia */}
       <View style={styles.guaranteeSection}>
-        <Text style={styles.guaranteeTitle}>🛡️ Garantia de 30 Dias</Text>
+        <Text style={styles.guaranteeTitle}>{t('guaranteeTitle')}</Text>
         <Text style={styles.guaranteeText}>
-          Não ficou satisfeito? Devolvemos 100% do seu dinheiro, sem perguntas.
-          Testamos em milhares de sites e sabemos que funciona perfeitamente.
+          {t('guaranteeText')}
         </Text>
         <View style={styles.guaranteeFeatures}>
-          <Text style={styles.guaranteeFeature}>✅ Suporte 24/7</Text>
-          <Text style={styles.guaranteeFeature}>✅ Atualizações gratuitas</Text>
+          <Text style={styles.guaranteeFeature}>{t('guaranteeFeatures.support')}</Text>
+          <Text style={styles.guaranteeFeature}>{t('guaranteeFeatures.updates')}</Text>
           <Text style={styles.guaranteeFeature}>
-            ✅ Setup completo incluído
+            {t('guaranteeFeatures.setup')}
           </Text>
         </View>
       </View>
 
       {/* FAQ */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>❓ Perguntas Frequentes</Text>
+        <Text style={styles.sectionTitle}>{t('faqTitle')}</Text>
         <View style={styles.faqContainer}>
-          {faqs.map((faq, index) => (
+          {t('faq').map((faq: any, index: number) => (
             <TouchableOpacity
               key={index}
               style={styles.faqItem}
@@ -356,16 +349,15 @@ export default function App() {
       {/* CTA Final */}
       <View style={styles.finalCta}>
         <Text style={styles.finalCtaTitle}>
-          Pronto para Transformar seu Negócio?
+          {t('finalCtaTitle')}
         </Text>
         <TouchableOpacity style={styles.finalCtaButton} onPress={() => setCurrentPage("demo")}>
           <Text style={styles.finalCtaButtonText}>
-            Começar Agora - Grátis 🚀
+            {t('finalCtaButton')}
           </Text>
         </TouchableOpacity>
         <Text style={styles.finalCtaSubtext}>
-          Junte-se a dezenas de empresas que já aumentaram suas vendas com
-          apps nativos
+          {t('finalCtaSubtext')}
         </Text>
       </View>
 
@@ -374,17 +366,17 @@ export default function App() {
         <View style={styles.footerContent}>
           {/* Seção 1: Empresa */}
           <View style={styles.footerSection}>
-            <Text style={styles.footerLogo}>🚀 AppConverter</Text>
+            <Text style={styles.footerLogo}>{t('logo')}</Text>
             <Text style={styles.footerSubtitle}>
-              A solução revolucionária para sua empresa ter um app excelente,
-              barato e rápido
+              {t('footerSubtitle')}
             </Text>
             <TouchableOpacity onPress={() => setCurrentPage("termos")}>
-              <Text style={styles.footerLinkText}>Termos de Uso</Text>
+              <Text style={styles.footerLinkText}>{t('termsOfUse')}</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => setCurrentPage("privacidade")}>
-              <Text style={styles.footerLinkText}>Política de Privacidade</Text>
+              <Text style={styles.footerLinkText}>{t('privacyPolicy')}</Text>
             </TouchableOpacity>
+            <Text style={styles.footerCnpj}>CNPJ: 42.768.698/0001-30</Text>
             {false && <View style={styles.socialButtons}>
               <TouchableOpacity style={styles.socialButton}>
                 <Text style={styles.socialButtonText}>📷 Instagram</Text>
@@ -397,49 +389,49 @@ export default function App() {
 
           {/* Seção 2: Menu */}
           <View style={styles.footerSection}>
-            <Text style={styles.footerSectionTitle}>Menu</Text>
+            <Text style={styles.footerSectionTitle}>{t('footerMenu.title')}</Text>
             <TouchableOpacity style={styles.footerLink}>
-              <Text style={styles.footerLinkText}>Sobre Nós</Text>
+              <Text style={styles.footerLinkText}>{t('footerMenu.about')}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.footerLink}>
-              <Text style={styles.footerLinkText}>Como Funciona?</Text>
+              <Text style={styles.footerLinkText}>{t('footerMenu.howItWorks')}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.footerLink}>
-              <Text style={styles.footerLinkText}>Dúvidas Frequentes</Text>
+              <Text style={styles.footerLinkText}>{t('footerMenu.faq')}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.footerLink}>
-              <Text style={styles.footerLinkText}>Fale Conosco</Text>
+              <Text style={styles.footerLinkText}>{t('footerMenu.contact')}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.footerLink}>
-              <Text style={styles.footerLinkText}>Blog</Text>
+              <Text style={styles.footerLinkText}>{t('footerMenu.blog')}</Text>
             </TouchableOpacity>
           </View>
 
           {/* Seção 3: Fale Conosco */}
           <View style={styles.footerSection}>
-            <Text style={styles.footerSectionTitle}>Fale Conosco</Text>
+            <Text style={styles.footerSectionTitle}>{t('footerContact.title')}</Text>
             <TouchableOpacity style={styles.whatsappButton} onPress={async () => {
               await Linking.openURL("https://api.whatsapp.com/send?phone=5527998012664&text=Ola%2C%20eu%20tenho%20uma%20duvida%20sobre%20o%20AppConverter")
             }}>
-              <Text style={styles.whatsappButtonText}>💬 WhatsApp</Text>
+              <Text style={styles.whatsappButtonText}>{t('footerContact.whatsapp')}</Text>
             </TouchableOpacity>
             {/* <Text style={styles.emailText}>contato@appconverter.com.br</Text> */}
           </View>
 
           {/* Seção 4: Receba Novidades */}
           <View style={styles.footerSection}>
-            <Text style={styles.footerSectionTitle}>Receba Novidades</Text>
+            <Text style={styles.footerSectionTitle}>{t('footerNewsletter.title')}</Text>
             <Text style={styles.newsletterDescription}>
-              Fique por dentro das últimas novidades e dicas sobre apps
+              {t('footerNewsletter.description')}
             </Text>
             <View style={styles.newsletterContainer}>
               <TextInput
                 style={styles.newsletterInput}
-                placeholder="Seu e-mail"
+                placeholder={t('footerNewsletter.placeholder')}
                 placeholderTextColor="#9ca3af"
               />
               <TouchableOpacity style={styles.newsletterButton}>
-                <Text style={styles.newsletterButtonText}>Inscrever</Text>
+                <Text style={styles.newsletterButtonText}>{t('footerNewsletter.button')}</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -448,7 +440,7 @@ export default function App() {
         {/* Copyright */}
         <View style={styles.footerBottom}>
           <Text style={styles.copyrightText}>
-            © 2024 AppConverter - Todos os direitos reservados
+            {t('copyright')}
           </Text>
         </View>
       </View>
@@ -967,7 +959,12 @@ const styles = StyleSheet.create({
     color: "#9ca3af",
     lineHeight: 20,
   },
-
+  footerCnpj: {
+    fontSize: 14,
+    color: "#9ca3af",
+    lineHeight: 20,
+    marginTop: 16,
+  },
   // Seção 3: Fale Conosco
   whatsappButton: {
     backgroundColor: "#059669",

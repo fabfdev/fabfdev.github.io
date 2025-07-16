@@ -52,6 +52,19 @@ export default function DemoPage({ onGoBack }: DemoPageProps) {
       // Mostrar mensagem de sucesso
       setShowSuccessMessage(true);
       
+      // Disparar evento do Facebook Pixel
+      if (typeof (window as any).fbq !== 'undefined') {
+        (window as any).fbq('track', 'Contact', {
+          content_name: 'Contato via botão',
+          content_category: 'Lead',
+          value: 0.00,
+          currency: 'BRL'
+        });
+        console.log('Evento Facebook Pixel "Contact" disparado.');
+      } else {
+        console.warn('Facebook Pixel não carregado.');
+      }
+      
       // Limpar o formulário
       setFormData({
         nome: "",
