@@ -376,7 +376,6 @@ export default function App() {
             <TouchableOpacity onPress={() => setCurrentPage("privacidade")}>
               <Text style={styles.footerLinkText}>{t('privacyPolicy')}</Text>
             </TouchableOpacity>
-            <Text style={styles.footerCnpj}>CNPJ: 42.768.698/0001-30</Text>
             {false && <View style={styles.socialButtons}>
               <TouchableOpacity style={styles.socialButton}>
                 <Text style={styles.socialButtonText}>📷 Instagram</Text>
